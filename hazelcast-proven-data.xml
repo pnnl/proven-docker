@@ -32,7 +32,7 @@
 	<!-- PER_MEMBER by default (i.e. random selection) -->
 	<partition-group enabled="false"/>
 
-	<map name="gov.pnnl.proven.provenMessage.*">
+	<map name="gov.pnnl.proven.message.*">
 		<time-to-live-seconds>0</time-to-live-seconds>
 		<max-size policy="PER_NODE">0</max-size>
 	</map>
