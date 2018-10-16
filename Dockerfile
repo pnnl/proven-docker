@@ -30,6 +30,7 @@ RUN apk update \
     && git clone https://github.com/pnnl/proven-message.git -b master --single-branch \
     && cd /build/proven-message \
     && ./gradlew clean \
+    && ./gradlew build \
     && ./gradlew publishToMavenLocal \
     && cd /build \
     && git clone https://github.com/pnnl/proven-cluster.git -b master --single-branch \
@@ -44,8 +45,11 @@ ARG TIMESTAMP
 COPY --from=provenbuild /build/proven-message/build/libs/proven-message-0.1-all-in-one.jar /opt/payara/deployments/proven-message-0.1-all-in-one.jar
 COPY --from=provenbuild /build/proven-cluster/proven-member/hybrid-service/build/libs/hybrid.war /opt/payara/deployments/hybrid.war
 RUN echo $TIMESTAMP > /opt/payara/deployments/dockerbuildversion.txt
+USER root
+RUN mkdir -p /proven && chown payara:payara /proven
+USER payara
+VOLUME /proven
 ADD proven-system-properties /opt/payara/deployments/proven-system-properties
 ADD hazelcast-proven-data.xml /opt/payara/deployments/hazelcast-proven-data.xml
-VOLUME /proven/PROVEN
 EXPOSE 8080
 CMD ["--deploy", "/opt/payara/deployments/hybrid.war", "--hzconfigfile", "/opt/payara/deployments/hazelcast-proven-data.xml", "--systemproperties", "/opt/payara/deployments/proven-system-properties", "--addlibs", "/opt/payara/deployments/proven-message-0.1-all-in-one.jar"]
