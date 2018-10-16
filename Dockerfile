@@ -38,7 +38,7 @@ RUN apk update \
     && ./gradlew war
 
 
-FROM payara/micro
+FROM payara/micro:5.181
 ARG TIMESTAMP
 
 COPY --from=provenbuild /build/proven-message/build/libs/proven-message-0.1-all-in-one.jar /opt/payara/deployments/proven-message-0.1-all-in-one.jar
