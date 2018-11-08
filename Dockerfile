@@ -29,7 +29,7 @@ RUN echo $TIMESTAMP > /dockerbuildversion.txt \
     && apk add --no-cache git \
     && mkdir /build \
     && cd /build \
-    && git clone https://github.com/pnnl/proven-message.git -b master --single-branch \
+    && git clone https://github.com/pnnl/proven-message.git -b 'v1.3.1' --single-branch \
     && cd /build/proven-message \
     && git log -1 --pretty=format:"%h" >> /dockerbuildversion.txt \
     && echo ' : proven-message' >> /dockerbuildversion.txt \
@@ -37,17 +37,18 @@ RUN echo $TIMESTAMP > /dockerbuildversion.txt \
     && ./gradlew build \
     && ./gradlew publishToMavenLocal \
     && cd /build \
-    && git clone https://github.com/pnnl/proven-cluster.git -b master --single-branch \
+    && git clone https://github.com/pnnl/proven-cluster.git -b 'v1.3.3' --single-branch \
     && cd /build/proven-cluster/proven-member \
     && git log -1 --pretty=format:"%h" >> /dockerbuildversion.txt \
     && echo ' : proven-cluster' >> /dockerbuildversion.txt \
     && ./gradlew clean \
-    && ./gradlew war
+    && ./gradlew war \
+    && ls -l /build/proven-message/build/libs
 
 
-FROM payara/micro:5.181
+FROM payara/micro:5.181 
 
-COPY --from=provenbuild /build/proven-message/build/libs/proven-message-0.1-all-in-one.jar /opt/payara/deployments/proven-message-0.1-all-in-one.jar
+COPY --from=provenbuild /build/proven-message/build/libs/proven-message-0.2-all-in-one.jar /opt/payara/deployments/proven-message-0.2-all-in-one.jar
 COPY --from=provenbuild /build/proven-cluster/proven-member/hybrid-service/build/libs/hybrid.war /opt/payara/deployments/hybrid.war
 COPY --from=provenbuild /dockerbuildversion.txt /opt/payara/deployments/dockerbuildversion.txt
 RUN cat /opt/payara/deployments/dockerbuildversion.txt
@@ -58,4 +59,4 @@ VOLUME /proven
 ADD proven-system-properties /opt/payara/deployments/proven-system-properties
 ADD hazelcast-proven-data.xml /opt/payara/deployments/hazelcast-proven-data.xml
 EXPOSE 8080
-CMD ["--deploy", "/opt/payara/deployments/hybrid.war", "--hzconfigfile", "/opt/payara/deployments/hazelcast-proven-data.xml", "--systemproperties", "/opt/payara/deployments/proven-system-properties", "--addlibs", "/opt/payara/deployments/proven-message-0.1-all-in-one.jar"]
+CMD ["--deploy", "/opt/payara/deployments/hybrid.war", "--hzconfigfile", "/opt/payara/deployments/hazelcast-proven-data.xml", "--systemproperties", "/opt/payara/deployments/proven-system-properties", "--addlibs", "/opt/payara/deployments/proven-message-0.2-all-in-one.jar"]
