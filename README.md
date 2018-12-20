@@ -1,8 +1,8 @@
-# proven-docker is a module of https://github.com/pnnl/ProvenanceEnvironment
+# proven-docker
+
+This repository provides a container for use within the GridAPPS-D context.  It includes code from the main Proven Environment (https://github.com/pnnl/ProvenanceEnvironment).
  
 The ProvenanceEnvironment Client and server software suite supporting scientific provenance disclosure, collection,and management.
-
-The proven-docker module is used to containerize the proven-cluster. 
 
 June 27, 2018
 
