@@ -35,16 +35,6 @@
 	<map name="gov.pnnl.proven.message.*">
 		<time-to-live-seconds>0</time-to-live-seconds>
 		<max-size policy="PER_NODE">0</max-size>
-
-		<map-store enabled="true" initial-mode="LAZY">
-			<class-name>gov.pnnl.proven.hybrid.util.store.HybridMapStore</class-name>
-			<write-delay-seconds>60</write-delay-seconds>
-			<write-batch-size>10000</write-batch-size>
-			<write-coalescing>true</write-coalescing>
-
-			
-		</map-store>
-
 	</map>
 
 	<serialization>
