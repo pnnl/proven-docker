@@ -1,0 +1,5 @@
+FROM gridappsd/proven:v1.3.1
+
+ADD logging.properties /opt/payara/deployments/
+
+CMD ["--deploy", "/opt/payara/deployments/hybrid.war", "--hzconfigfile", "/opt/payara/deployments/hazelcast-proven-data.xml", "--systemproperties", "/opt/payara/deployments/proven-system-properties", "--addlibs", "/opt/payara/deployments/proven-message-0.2-all-in-one.jar", "--logproperties", "/opt/payara/deployments/logging.properties"]
