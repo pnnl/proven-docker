@@ -42,7 +42,7 @@ RUN apk update \
 FROM payara/micro:5.181
 ARG TIMESTAMP
 
-COPY --from=provenbuild /build/proven-message/build/libs/proven-message-0.1-all-in-one.jar /opt/payara/deployments/proven-message-0.1-all-in-one.jar
+COPY --from=provenbuild /build/proven-message/build/libs/proven-message-0.3-all-in-one.jar /opt/payara/deployments/proven-message-0.3-all-in-one.jar
 COPY --from=provenbuild /build/proven-cluster/proven-member/hybrid-service/build/libs/hybrid.war /opt/payara/deployments/hybrid.war
 RUN echo $TIMESTAMP > /opt/payara/deployments/dockerbuildversion.txt
 USER root
@@ -52,4 +52,4 @@ VOLUME /proven
 ADD proven-system-properties /opt/payara/deployments/proven-system-properties
 ADD hazelcast-proven-data.xml /opt/payara/deployments/hazelcast-proven-data.xml
 EXPOSE 8080
-CMD ["--deploy", "/opt/payara/deployments/hybrid.war", "--hzconfigfile", "/opt/payara/deployments/hazelcast-proven-data.xml", "--systemproperties", "/opt/payara/deployments/proven-system-properties", "--addlibs", "/opt/payara/deployments/proven-message-0.1-all-in-one.jar"]
+CMD ["--deploy", "/opt/payara/deployments/hybrid.war", "--hzconfigfile", "/opt/payara/deployments/hazelcast-proven-data.xml", "--systemproperties", "/opt/payara/deployments/proven-system-properties", "--addlibs", "/opt/payara/deployments/proven-message-0.3-all-in-one.jar"]
