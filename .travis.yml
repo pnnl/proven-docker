@@ -1,11 +1,6 @@
 # make use of vm's
 sudo: 'required'
 
-language: java
-
-#jdk:
-  #- oraclejdk8
-  
 # have the docker service set up (we'll
 # update it later)
 services:
@@ -17,6 +12,4 @@ before_install:
   - './.travis/main.sh'
   
 script:
-  # - './gradlew check'
-  #- './gradlew export'
   - './.travis/build-docker.sh'
