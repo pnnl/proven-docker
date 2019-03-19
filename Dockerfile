@@ -10,12 +10,12 @@ RUN apk update \
     && apk add --no-cache git apache-ant maven nss \
     && mkdir /build \
     && cd /build \
-    && git clone https://bitbucket.org/openrdf/alibaba.git -b '2.0' \
+    && git -c advice.detachedHead=false clone https://bitbucket.org/openrdf/alibaba.git -b '2.0' \
     && cd alibaba  \
     && sed -i 's/javassist.url           = http:/javassist.url           = https:/' dependencies.properties \
     && sed -i 's/slf4j.url               = http:/slf4j.url               = https:/' dependencies.properties \
     && sed -i 's/openrdf-sesame.url      = http:/openrdf-sesame.url      = https:/' dependencies.properties \
-    && mvn -Dmaven.test.skip=true source:jar package install \
+    && mvn -B -q -Dmaven.test.skip=true source:jar package install \
     && ant build-sdk
 
 FROM openjdk:8-jdk-alpine AS provenbuild
@@ -29,7 +29,7 @@ RUN echo $TIMESTAMP > /dockerbuildversion.txt \
     && apk add --no-cache git nss \
     && mkdir /build \
     && cd /build \
-    && git clone https://github.com/pnnl/proven-message.git -b 'v1.3.5.3' --single-branch \
+    && git -c advice.detachedHead=false clone https://github.com/pnnl/proven-message.git -b 'v1.3.3' --single-branch \
     && cd /build/proven-message \
     && git log -1 --pretty=format:"%h" >> /dockerbuildversion.txt \
     && echo ' : proven-message' >> /dockerbuildversion.txt \
@@ -37,7 +37,7 @@ RUN echo $TIMESTAMP > /dockerbuildversion.txt \
     && ./gradlew build \
     && ./gradlew publishToMavenLocal \
     && cd /build \
-    && git clone https://github.com/pnnl/proven-cluster.git -b 'v1.3.5.3' --single-branch \
+    && git -c advice.detachedHead=false clone https://github.com/pnnl/proven-cluster.git -b 'v1.3.5.2' --single-branch \
     && cd /build/proven-cluster/proven-member \
     && git log -1 --pretty=format:"%h" >> /dockerbuildversion.txt \
     && echo ' : proven-cluster' >> /dockerbuildversion.txt \
