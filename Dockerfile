@@ -37,7 +37,7 @@ RUN echo $TIMESTAMP > /dockerbuildversion.txt \
     && ./gradlew build \
     && ./gradlew publishToMavenLocal \
     && cd /build \
-    && git -c advice.detachedHead=false clone https://github.com/pnnl/proven-cluster.git -b 'v1.3.5.2' --single-branch \
+    && git -c advice.detachedHead=false clone https://github.com/pnnl/proven-cluster.git -b 'v1.3.5.3' --single-branch \
     && cd /build/proven-cluster/proven-member \
     && git log -1 --pretty=format:"%h" >> /dockerbuildversion.txt \
     && echo ' : proven-cluster' >> /dockerbuildversion.txt \
