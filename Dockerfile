@@ -7,7 +7,7 @@ FROM openjdk:8-jdk-alpine AS alibababuild
 
 RUN apk update \
     && apk upgrade \
-    && apk add --no-cache git apache-ant maven nss\
+    && apk add --no-cache git apache-ant maven nss \
     && mkdir /build \
     && cd /build \
     && git -c advice.detachedHead=false clone https://bitbucket.org/openrdf/alibaba.git -b '2.0' \
@@ -26,7 +26,7 @@ RUN echo $TIMESTAMP > /dockerbuildversion.txt \
     && echo $TIMESTAMP \
     && apk update \
     && apk upgrade \
-    && apk add --no-cache git nss\
+    && apk add --no-cache git nss \
     && mkdir /build \
     && cd /build \
     && git -c advice.detachedHead=false clone https://github.com/pnnl/proven-message.git -b 'v1.3.3' --single-branch \
@@ -37,7 +37,7 @@ RUN echo $TIMESTAMP > /dockerbuildversion.txt \
     && ./gradlew build \
     && ./gradlew publishToMavenLocal \
     && cd /build \
-    && git -c advice.detachedHead=false clone https://github.com/pnnl/proven-cluster.git -b 'v1.3.5.2' --single-branch \
+    && git -c advice.detachedHead=false clone https://github.com/pnnl/proven-cluster.git -b 'v1.3.5.3' --single-branch \
     && cd /build/proven-cluster/proven-member \
     && git log -1 --pretty=format:"%h" >> /dockerbuildversion.txt \
     && echo ' : proven-cluster' >> /dockerbuildversion.txt \
