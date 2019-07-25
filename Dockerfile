@@ -48,6 +48,7 @@ RUN echo $TIMESTAMP > /dockerbuildversion.txt \
 
 FROM payara/micro:5.181 
 
+
 COPY --from=provenbuild /build/proven-message/build/libs/proven-message-0.4-all-in-one.jar /opt/payara/deployments/proven-message-0.4-all-in-one.jar
 COPY --from=provenbuild /build/proven-cluster/proven-member/hybrid-service/build/libs/hybrid.war /opt/payara/deployments/hybrid.war
 COPY --from=provenbuild /dockerbuildversion.txt /opt/payara/deployments/dockerbuildversion.txt
