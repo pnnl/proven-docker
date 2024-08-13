@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${PG_USER} 
+      POSTGRES_PASSWORD: ${PG_PASS}
+      POSTGRES_HOST: 127.0.0.1
+  timescaledb:
+    image: timescale/timescaledb-ha:pg16
+    container_name: "gridappsd_ts"
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASS}
+      POSTGRES_DB: gridappsd_ts
+    depends_on:
+      - db
+    volumes:
+      - ${HOME_DIRECTORY}/tsdb/mydata:/var/lib/postgresql/data

@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+
+  server:
+   image: postgrest/postgrest
+   ports:
+   - "3000:3000"
+   environment:
+     PGRST_DB_URI: "postgres://authenticator:mysecretpassword@gridappsd_ts:5432/gridappsd_ts"
+     PGRST_DB_SCHEMAS: "api"
+     PGRST_DB_ANON_ROLE: "web_anon"
+     PGRST_OPENAPI_SERVER_PROXY_URI: "http://localhost:3000"
